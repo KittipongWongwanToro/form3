@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form 3A - Annual Development Plan</title>
+<style>
+:root{--brown:#8a3e16;--peach:#f6d6be;--light:#fff0e4;--grid:#cbd5df;--ink:#26364a;--blue:#0c527a}*{box-sizing:border-box}body{margin:0;background:#f7f9fc;color:var(--ink);font:14px/1.5 Arial,"Noto Sans Thai",sans-serif}.sheet{max-width:1200px;margin:26px auto;padding:28px 30px 32px;background:white;box-shadow:0 3px 22px #21364b12;border:1px solid #e2e8ef}h1{margin:0;color:var(--brown);font-size:26px;line-height:1.25;font-weight:700}.subtitle{margin:8px 0 18px;color:var(--brown);font-size:15px}.howto{font-size:12px;font-style:italic;margin-bottom:27px}.section{font-size:15px;font-weight:bold;background:var(--peach);color:var(--brown);padding:6px 10px;margin:0 0 0}.header-fields{display:grid;grid-template-columns:1.25fr 1.25fr .65fr;gap:16px;padding:15px 2px 21px}.field{display:flex;align-items:center;gap:10px}.field label{white-space:nowrap}.field input,.field select{border:0;border-bottom:1px solid #93a5b8;padding:7px 3px;border-radius:0;background:transparent;width:100%;min-width:0;color:#1d3552;font:inherit}.field input:focus,.field select:focus{outline:none;border-bottom:2px solid #3677bb}.table-wrap{overflow-x:auto}.plan{border-collapse:collapse;width:100%;min-width:900px;table-layout:fixed}.plan th{background:var(--light);text-align:left;color:var(--brown);border:1px solid #d4b9a6;border-bottom:2px solid var(--brown);padding:11px 8px;line-height:1.3}.plan th:nth-child(1){width:16%}.plan th:nth-child(2){width:19%}.plan th:nth-child(3){width:17%}.plan th:nth-child(4){width:25%}.plan th:nth-child(5){width:23%}.plan td{border:1px solid var(--grid);padding:10px 8px;vertical-align:top;height:150px}.plan tbody tr:nth-child(even){background:#fff8f3}.gap-label{font-weight:700;color:#2e415a;margin-bottom:11px;display:block}.plan select,.plan input,.plan textarea{width:100%;font:inherit;border:1px solid #cbd6e1;border-radius:4px;background:white;color:#21344b;padding:8px}.plan textarea{height:125px;resize:vertical;min-height:95px}.plan select:focus,.plan input:focus,.plan textarea:focus{outline:2px solid #bcdaf5;border-color:#4e88ba}.owner-fields{display:flex;flex-direction:column;gap:10px}.mini{font-size:11px;color:#657385;margin:0 0 4px}.actions{display:flex;gap:10px;justify-content:flex-end;align-items:center;margin-top:24px;flex-wrap:wrap}.btn{background:white;border:1px solid #a5b5c6;color:#25466a;border-radius:5px;padding:10px 17px;font:600 13px Arial;cursor:pointer}.btn.primary{background:#1467ac;color:white;border-color:#1467ac}.btn:hover{filter:brightness(.96)}.status{margin-right:auto;font-size:12px;color:#64748b}.note{color:#657385;font-size:12px;margin:12px 0 0}.toast{padding:10px 12px;border-radius:4px;margin-top:15px;display:none}.toast.ok{display:block;background:#ecf9ef;color:#17652b}.toast.err{display:block;background:#fff0ee;color:#9d2f24}@media(max-width:780px){.sheet{margin:0;padding:18px 12px}.header-fields{grid-template-columns:1fr}.field{align-items:flex-start;flex-direction:column;gap:0}h1{font-size:22px}}
+</style>
+</head>
+<body><main class="sheet">
+<h1>Form 3A - Annual Development Plan</h1>
+<p class="subtitle">Annual detail for Form 3 - Link each priority to a gap ID</p>
+<p class="howto">How to fill: List each priority (one row each) and link it to a gap ID, then set the annual KPI where applicable.</p>
+<form id="planForm" novalidate>
+<div class="section">A. Plan header</div>
+<div class="header-fields"><div class="field"><label for="successor">Successor</label><input id="successor" autocomplete="off"></div><div class="field"><label for="targetRole">Target role</label><input id="targetRole" autocomplete="off"></div><div class="field"><label for="planYear">Plan year</label><select id="planYear"><option value="">Select year</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option><option>2031</option></select></div></div>
+<div class="section">B. Annual priorities</div>
+<div class="table-wrap"><table class="plan"><thead><tr><th>Priority / gap</th><th>What must be achieved</th><th>How to develop</th><th>Expected result / standard</th><th>Owner / due date</th></tr></thead><tbody id="priorityRows"></tbody></table></div>
+<p class="note">Record up to three annual priorities. Select the associated G1–G3 from Form 1. Leave unused priority rows blank.</p>
+<div class="actions"><span class="status" id="status">Draft not saved</span><button type="button" class="btn" id="clearBtn">Clear form</button><button type="button" class="btn" id="saveBtn">Save Draft</button><button type="submit" class="btn primary">Submit</button></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+</form></main>
+<script>
+'use strict';
+const KEY='successor_form3a_annual_v1';
+const rows=document.getElementById('priorityRows');
+for(let i=1;i<=3;i++){
+ const tr=document.createElement('tr');
+ tr.innerHTML=`<td><span class="gap-label">${i} / G__</span><select aria-label="Priority ${i} gap" data-key="p${i}_gap"><option value="">Select Gap ID</option><option>G1</option><option>G2</option><option>G3</option></select></td><td><textarea data-key="p${i}_achieve" aria-label="Priority ${i} what must be achieved" placeholder="Describe objective..."></textarea></td><td><textarea data-key="p${i}_develop" aria-label="Priority ${i} how to develop" placeholder="Development activities..."></textarea></td><td><textarea data-key="p${i}_result" aria-label="Priority ${i} expected result" placeholder="Measurable result / KPI..."></textarea></td><td><div class="owner-fields"><div><div class="mini">Owner</div><input data-key="p${i}_owner" aria-label="Priority ${i} owner" placeholder="Owner name / team"></div><div><div class="mini">Due date</div><input type="date" data-key="p${i}_due" aria-label="Priority ${i} due date"></div></div></td>`;
+ rows.appendChild(tr);
+}
+function fields(){return [...document.querySelectorAll('#planForm input,#planForm select,#planForm textarea')];}
+function data(){const out={};for(const el of fields())out[el.dataset.key||el.id]=el.value;return out;}
+function restore(obj){for(const el of fields()){const k=el.dataset.key||el.id;if(Object.hasOwn(obj,k))el.value=obj[k]||'';}}
+function message(msg,kind){const el=document.getElementById('toast');el.textContent=msg;el.className='toast '+kind;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data()));document.getElementById('status').textContent='Draft saved locally';message('Draft saved in this browser.','ok');}catch(e){message('Browser storage unavailable. Data has not been saved.','err');}}
+document.getElementById('saveBtn').onclick=save;
+document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear all Form 3A inputs?')){for(const el of fields())el.value='';try{localStorage.removeItem(KEY)}catch(e){}document.getElementById('status').textContent='Draft not saved';message('Form cleared.','ok')}};
+document.getElementById('planForm').addEventListener('submit',e=>{e.preventDefault();const d=data();const errors=[];if(!d.successor.trim())errors.push('Successor');if(!d.targetRole.trim())errors.push('Target role');if(!d.planYear)errors.push('Plan year');let count=0;for(let i=1;i<=3;i++){const prefix='p'+i+'_';const vals=['gap','achieve','develop','result','owner','due'].map(k=>d[prefix+k]);if(vals.some(v=>v.trim())){count++;if(vals.some(v=>!v.trim()))errors.push('Complete all fields for Priority '+i);}}if(!count)errors.push('At least one annual priority');if(errors.length){message('Please check: '+errors.join('; ')+'.','err');return;}save();message('Form validated successfully (prototype only; not submitted to SAP).','ok')});
+try{const saved=localStorage.getItem(KEY);if(saved){restore(JSON.parse(saved));document.getElementById('status').textContent='Draft loaded from this browser';}}catch(e){}
+</script></body></html>
